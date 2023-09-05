@@ -33,25 +33,32 @@ class DataRecorder:
         # Open the CSV file in append mode with newline='' to avoid extra line breaks
         with open(self.path_csv, mode='a', newline='') as file:
             writer = csv.writer(file)
+            print('checking file headers')
 
             # Write header if the file is empty
             if file.tell() == 0:
+                print('no header found in file, catch first data')
                 while True:
                     data = self.inverter.get_data()
                     if data != None:
                         csv_columns = ['time'] + list(data.keys())
+                        print(f'new header: {csv_columns}')
                         writer.writerow(csv_columns)
                         break
 
-            while True:
-                # Get the current time
-                current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        print('file headers found, started recording')
+        while True:
+            # Get the current time
+            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-                # Get data from the get_data() function
-                data = self.inverter.get_data()
+            # Get data from the get_data() function
+            data = self.inverter.get_data()
 
-                # Create a tuple with current time and data
-                row = (current_time,) + tuple(data.values())
+            # Create a tuple with current time and data
+            row = (current_time,) + tuple(data.values())
+
+            with open(self.path_csv, mode='a', newline='') as file:
+                writer = csv.writer(file)
 
                 # Write the tuple to the CSV file
                 writer.writerow(row)
@@ -59,9 +66,4 @@ class DataRecorder:
                 # Flush the file to make sure the data is written immediately
                 file.flush()
 
-                time.sleep(self.interval)
-
-
-if __name__ == '__main__':
-    t = inverters.BosswerkMi300('http://wech.fritz.box')
-    d = DataRecorder(t, 4)
+            time.sleep(self.interval)
