@@ -1,10 +1,9 @@
 import csv
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import inverters
-from inverters import Test
 
 
 class DataRecorder:
@@ -49,7 +48,8 @@ class DataRecorder:
         print('file headers found, started recording')
         while True:
             # Get the current time
-            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            format_string = '%Y-%m-%d %H:%M:%S %Z'
+            current_time = datetime.now(timezone.utc).strftime(format_string)
 
             # Get data from the get_data() function
             data = self.inverter.get_data()
