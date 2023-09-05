@@ -11,7 +11,7 @@ class Inverter:
         try:
             return self._get_data()
         except:
-            return None
+            return {}
 
     @property
     def type(self) -> str:

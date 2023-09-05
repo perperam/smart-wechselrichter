@@ -7,29 +7,32 @@ from .inverter import Inverter
 
 
 def get_data(url, user, password) -> dict:
-    data = requests.get(url, verify=False, auth=(user, password))
+    try:
+        data = requests.get(url, verify=False, auth=(user, password))
 
-    for zeile in data.text.split('\n'):
+        for zeile in data.text.split('\n'):
 
-        if 'var webdata_now_p' in zeile:
-            watt_now = zeile
-            left_texter = watt_now.find('"', 0, len(watt_now)) + 1
-            right_texter = watt_now.find('"', left_texter, len(watt_now))
-            watt_now = watt_now[left_texter:right_texter]
+            if 'var webdata_now_p' in zeile:
+                watt_now = zeile
+                left_texter = watt_now.find('"', 0, len(watt_now)) + 1
+                right_texter = watt_now.find('"', left_texter, len(watt_now))
+                watt_now = watt_now[left_texter:right_texter]
 
-        elif 'var webdata_today_e' in zeile:
-            watt_today = zeile
-            left_texter = watt_today.find('"', 0, len(watt_today)) + 1
-            right_texter = watt_today.find('"', left_texter, len(watt_today))
-            watt_today = watt_today[left_texter:right_texter]
+            elif 'var webdata_today_e' in zeile:
+                watt_today = zeile
+                left_texter = watt_today.find('"', 0, len(watt_today)) + 1
+                right_texter = watt_today.find('"', left_texter, len(watt_today))
+                watt_today = watt_today[left_texter:right_texter]
 
-        elif 'var webdata_total_e' in zeile:
-            watt_overall = zeile
-            left_texter = watt_overall.find('"', 0, len(watt_overall)) + 1
-            right_texter = watt_overall.find('"', left_texter, len(watt_overall))
-            watt_overall = watt_overall[left_texter:right_texter]
+            elif 'var webdata_total_e' in zeile:
+                watt_overall = zeile
+                left_texter = watt_overall.find('"', 0, len(watt_overall)) + 1
+                right_texter = watt_overall.find('"', left_texter, len(watt_overall))
+                watt_overall = watt_overall[left_texter:right_texter]
 
-    return {'watt_now': watt_now, 'watt_today': watt_today, 'watt_overall': watt_overall}
+        return {'watt_now': watt_now, 'watt_today': watt_today, 'watt_overall': watt_overall}
+    except:
+        return {}
 
 
 class BosswerkMi300(Inverter):
