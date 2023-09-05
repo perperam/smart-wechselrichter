@@ -3,12 +3,15 @@ from abc import abstractmethod
 
 
 class Inverter:
-    def __init__(self, name, typ):
+    def __init__(self, name: str, typ: str):
         self.name = name
         self.typ = typ
 
-    def get_data(self):
-        return self._get_data()
+    def get_data(self) -> dict:
+        try:
+            return self._get_data()
+        except:
+            return None
 
     @property
     def type(self) -> str:
@@ -17,5 +20,3 @@ class Inverter:
     @abstractmethod
     def _get_data(self):
         raise NotImplemented
-
-

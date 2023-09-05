@@ -1,7 +1,8 @@
-import inverters
+from inverters import Test
+from recording import DataRecorder
 
-if __name__ == '__main__':
-    # i = Inverter('hi', 'huhu', print)
-    t = inverters.Test()
+import matplotlib
+import pandas
 
-    print(t.get_data())
+t = Test()
+d = DataRecorder(t, 4)

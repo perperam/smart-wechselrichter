@@ -45,7 +45,7 @@ class BosswerkMi300(Inverter):
         name: this name can be anything
         """
 
-        super().__init__(name, typ='Bosswerk MI300', get_data_func=self._get_data)
+        super().__init__(name, typ='Bosswerk MI300')
         self.url = url
         self.user = user
         self.password = password
