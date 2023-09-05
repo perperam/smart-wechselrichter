@@ -51,4 +51,4 @@ class BosswerkMi300(Inverter):
         self.password = password
 
     def _get_data(self):
-        get_data(self.url, self.user, self.password)
+        return get_data(self.url, self.user, self.password)
